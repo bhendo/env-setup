@@ -4,7 +4,9 @@ git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$H
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/bhendo/env-setup/master/.zpreztorc > ${ZDOTDIR:-$HOME}/.zpreztorc
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/bhendo/env-setup/master/.zshrc > ${ZDOTDIR:-$HOME}/.zshrc
-source ${ZDOTDIR:-HOME}/.zplug/init.zsh
+source  ${ZDOTDIR:-$HOME}/.zshrc
+zplug install
+zplug load
 echo "Done"
 
 echo "Configuring tmux"
@@ -15,7 +17,6 @@ echo "Done"
 
 echo "Configuring vim"
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/bhendo/env-setup/master/.vimrc > ${ZDOTDIR:-$HOME}/.vimrc
-vi +PlugInstall +qall
+vi +PlugInstall +GoInstallBinaries +qall
 echo "Done"
 
-echo "chsh -s /bin/zsh"
