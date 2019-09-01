@@ -1,0 +1,39 @@
+# Hombrew
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_INSECURE_REDIRECT=1
+export HOMEBREW_CASK_OPTS=--require-sha
+
+# Path Updates
+export GOPATH=${ZDOTDIR:-$HOME}/.go
+export PATH=${ZDOTDIR:-$HOME}/.local/bin:$GOPATH/bin:$HOME/.cargo/bin:/opt/homebrew/bin:$PATH
+
+# AWS Vault
+export AWS_VAULT_PROMPT=osascript
+export AWS_VAULT_KEYCHAIN_NAME=login
+
+# Editor
+export EDITOR=vim
+
+# X11
+export DISPLAY=:0
+
+# Alias
+alias whatsmyip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias ls='lsd'
+
+eval $(starship init zsh)
+eval "$(zoxide init zsh)"
+
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+  autoload -Uz compinit
+  compinit
+fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
