@@ -12,7 +12,7 @@ export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS=--require-sha
 
 # Path Updates
-export GOPATH=${ZDOTDIR:-$HOME}/Development
+export GOPATH=${ZDOTDIR:-$HOME}/.go
 export PATH=$GOPATH/bin:$PATH
 
 # AWS Vault
