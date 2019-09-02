@@ -2,6 +2,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+setopt prompt_sp
+
 # Customize to your needs...
 source ${ZDOTDIR:-$HOME}/.zplug/init.zsh
 
