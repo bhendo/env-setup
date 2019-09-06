@@ -15,7 +15,7 @@ export HOMEBREW_CASK_OPTS=--require-sha
 
 # Path Updates
 export GOPATH=${ZDOTDIR:-$HOME}/.go
-export PATH=$GOPATH/bin:$PATH
+export PATH=/usr/local/sbin:$GOPATH/bin:$PATH
 
 # AWS Vault
 export AWS_VAULT_PROMPT=osascript
