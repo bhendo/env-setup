@@ -14,7 +14,7 @@ cd $TEMP_DIR
 
 curl -sL --proto-redir --all,https https://github.com/tmux/tmux/releases/download/${TMUX_VERSION}/tmux-${TMUX_VERSION}.tar.gz > tmux-${TMUX_VERSION}.tar.gz
 curl -sL --proto-redir --all,https https://github.com/libevent/libevent/releases/download/release-${LIBEVENT_VERSION}/libevent-${LIBEVENT_VERSION}.tar.gz > libevent-${LIBEVENT_VERSION}.tar.gz
-curl ftp://ftp.gnu.org/gnu/ncurses/ncurses-${NCURSES_VERSION}.tar.gz > ncurses-${NCURSES_VERSION}.tar.gz
+curl -sL --proto-redir --all,https https://github.com/mirror/ncurses/archive/v${NCURSES_VERSION}.tar.gz > ncurses-${NCURSES_VERSION}.tar.gz
 
 tar xvzf libevent-${LIBEVENT_VERSION}.tar.gz
 cd libevent-${LIBEVENT_VERSION}
