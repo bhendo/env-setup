@@ -295,5 +295,13 @@ set -g mouse on
 # move status line to top
 #set -g status-position top
 
-tmux_conf_theme_status_left=''
-tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} #(curl -m 1 wttr.in?format=3 2>/dev/null; sleep 900) , %R , %d %b , #{username}#{root} , #{hostname} '
+tmux_conf_battery_status_charging=' '
+tmux_conf_battery_status_discharging=' '
+tmux_conf_theme_window_status_current_fg='#8a8a8a'
+tmux_conf_theme_window_status_current_bg='#000000'
+tmux_conf_theme_status_left_fg='#8a8a8a'
+tmux_conf_theme_status_left_bg='#080808'
+tmux_conf_theme_status_right_fg='#8a8a8a'
+tmux_conf_theme_status_right_bg='#080808'
+tmux_conf_theme_status_left=' #{?battery_status, #{battery_status},}#{?battery_percentage, #{battery_percentage},}'
+tmux_conf_theme_status_right='%R , %d %b , #{username}#{root} , #{hostname} '
