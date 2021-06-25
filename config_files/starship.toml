@@ -1,5 +1,3 @@
-# ~/.config/starship.toml
-
 [aws]
 symbol = "  "
 
@@ -11,6 +9,7 @@ symbol = " "
 
 [directory]
 read_only = " "
+truncation_length = 8
 
 [docker_context]
 symbol = " "

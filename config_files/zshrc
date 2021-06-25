@@ -19,6 +19,7 @@ export DISPLAY=:0
 
 # Alias
 alias whatsmyip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias ls='lsd'
 
 eval $(starship init zsh)
 eval "$(zoxide init zsh)"

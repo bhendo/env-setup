@@ -9,6 +9,7 @@ echo "Install Homebrew"
 echo "Install cli tools"
 brew install \
 fzf \
+lsd \
 reattach-to-user-namespace \
 starship \
 tmux \
