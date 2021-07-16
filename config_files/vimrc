@@ -8,6 +8,8 @@ let vimplug_exists=expand('~/.vim/autoload/plug.vim')
 let g:vim_bootstrap_langs = "go,html,javascript,python,rust,typescript"
 let g:vim_bootstrap_editor = "vim"				" nvim or vim
 
+let g:polyglot_disabled = ['python']
+
 if !filereadable(vimplug_exists)
   if !executable("curl")
     echoerr "You have to install curl or first install vim-plug yourself!"
@@ -578,7 +580,6 @@ let g:airline#extensions#virtualenv#enabled = 1
 
 " Syntax highlight
 " Default highlight is better than polyglot
-let g:polyglot_disabled = ['python']
 let python_highlight_all = 1
 
 
