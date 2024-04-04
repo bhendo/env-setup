@@ -29,7 +29,13 @@ chmod -R go-w $(brew --prefix)/share
 echo "... done"
 
 echo "Installing rust ..."
-rustup-init -y
+rustup-init -y --default-toolchain nightly
+echo "... done"
+
+echo "Configuring python ..."
+asdf plugin-add python
+asdf install python latest
+asdf global python latest
 echo "... done"
 
 echo "Configuring tmux ..."
@@ -43,4 +49,5 @@ echo "... done"
 echo "Configuring vim ..."
 source  ${ZDOTDIR:-$HOME}/.zshrc
 vi +PlugInstall +GoInstallBinaries +qall
+pip install neovim
 echo "... done"

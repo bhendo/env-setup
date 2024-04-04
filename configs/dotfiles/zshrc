@@ -43,3 +43,5 @@ source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
