@@ -4,7 +4,7 @@ SCRIPT_DIR="$( cd -- "$( dirname -- "$0" )" &> /dev/null && pwd )"
 
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
-export HOMEBREW_CASK_OPTS=--require-sha
+export HOMEBREW_CASK_OPTS="--require-sha --appdir=~/Applications"
 
 echo "Installing homebrew ..."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -13,7 +13,7 @@ echo "... done"
 
 echo "Linking config files ..."
 mkdir -p ${ZDOTDIR:-$HOME}/.config/nvim
-for dotFile in zshrc config/starship.toml tmux.conf.local config/nvim/init.vim vimrc Brewfile
+for dotFile in zshrc config/starship.toml tmux.conf.local Brewfile
 do
     if [ -L ${ZDOTDIR:-$HOME}/.$dotFile ]; then
         rm ${ZDOTDIR:-$HOME}/.$dotFile
@@ -29,13 +29,20 @@ chmod -R go-w $(brew --prefix)/share
 echo "... done"
 
 echo "Installing rust ..."
-rustup-init -y --default-toolchain nightly
+rustup toolchain install stable nightly
+rustup default nightly
 echo "... done"
 
 echo "Configuring python ..."
 asdf plugin-add python
 asdf install python latest
 asdf global python latest
+echo "... done"
+
+echo "Configuring node ..."
+asdf plugin-add nodejs
+asdf install nodejs latest
+asdf global nodejs latest
 echo "... done"
 
 echo "Configuring tmux ..."
@@ -48,6 +55,5 @@ echo "... done"
 
 echo "Configuring vim ..."
 source  ${ZDOTDIR:-$HOME}/.zshrc
-vi +PlugInstall +GoInstallBinaries +qall
-pip install neovim
+git clone https://github.com/bhendo/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
 echo "... done"
