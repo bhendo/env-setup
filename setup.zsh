@@ -31,6 +31,7 @@ echo "... done"
 echo "Installing rust ..."
 rustup toolchain install stable nightly
 rustup default nightly
+rustup component add rust-analyzer
 echo "... done"
 
 echo "Configuring python ..."
