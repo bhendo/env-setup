@@ -1,0 +1,9 @@
+[tools]
+duckdb = "latest"
+go = "latest"
+node = "lts"
+python = "latest"
+rust = {version = "nightly", components="rust-analyzer"}
+
+[settings]
+idiomatic_version_file_enable_tools = []

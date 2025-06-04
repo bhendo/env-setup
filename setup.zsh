@@ -13,7 +13,7 @@ echo "... done"
 
 echo "Linking config files ..."
 mkdir -p ${ZDOTDIR:-$HOME}/.config/nvim
-for dotFile in zshrc config/starship.toml tmux.conf.local Brewfile
+for dotFile in zshrc config/starship.toml config/mise/config.toml tmux.conf.local Brewfile
 do
     if [ -L ${ZDOTDIR:-$HOME}/.$dotFile ]; then
         rm ${ZDOTDIR:-$HOME}/.$dotFile
@@ -34,16 +34,8 @@ rustup default nightly
 rustup component add rust-analyzer
 echo "... done"
 
-echo "Configuring python ..."
-asdf plugin-add python
-asdf install python latest
-asdf global python latest
-echo "... done"
-
-echo "Configuring node ..."
-asdf plugin-add nodejs
-asdf install nodejs latest
-asdf global nodejs latest
+echo "Installing dev tools ..."
+mise install
 echo "... done"
 
 echo "Configuring tmux ..."
