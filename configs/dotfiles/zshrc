@@ -1,6 +1,7 @@
 # Hombrew
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
+export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_CASK_OPTS="--require-sha --appdir=~/Applications"
 
 # Path Updates
@@ -45,3 +46,8 @@ source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/bhenderson/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions

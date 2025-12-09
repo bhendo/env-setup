@@ -1,9 +1,12 @@
 [tools]
+awscli = "latest"
 duckdb = "latest"
 go = "latest"
-node = "lts"
+node = "latest"
 python = "latest"
+ruby = "latest"
 rust = {version = "nightly", components="rust-analyzer"}
+uv = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = []
