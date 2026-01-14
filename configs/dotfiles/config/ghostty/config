@@ -1,0 +1,2 @@
+theme = Builtin Solarized Dark
+command = ~/.config/ghostty/tmux

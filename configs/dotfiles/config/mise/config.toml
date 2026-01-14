@@ -1,11 +1,15 @@
 [tools]
 awscli = "latest"
+codex = "latest"
 duckdb = "latest"
+gitleaks = "latest"
 go = "latest"
 node = "latest"
 python = "latest"
 ruby = "latest"
 rust = {version = "nightly", components="rust-analyzer"}
+trivy = "latest"
+trufflehog = "latest"
 uv = "latest"
 
 [settings]

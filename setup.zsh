@@ -13,7 +13,9 @@ echo "... done"
 
 echo "Linking config files ..."
 mkdir -p ${ZDOTDIR:-$HOME}/.config/nvim
-for dotFile in zshrc config/starship.toml config/mise/config.toml tmux.conf.local Brewfile
+mkdir -p ${ZDOTDIR:-$HOME}/.config/mise
+mkdir -p ${ZDOTDIR:-$HOME}/.config/ghostty
+for dotFile in zshrc config/starship.toml config/mise/config.toml config/ghostty/config config/ghostty/tmux tmux.conf.local Brewfile
 do
     if [ -L ${ZDOTDIR:-$HOME}/.$dotFile ]; then
         rm ${ZDOTDIR:-$HOME}/.$dotFile
