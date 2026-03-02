@@ -1,6 +1,7 @@
 brew "ast-grep"
 brew "bandwhich"
 brew "fd"
+brew "fish"
 brew "fzf"
 brew "gpg"
 brew "lsd"
