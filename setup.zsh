@@ -12,28 +12,28 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 echo "... done"
 
 echo "Linking config files ..."
-mkdir -p ${ZDOTDIR:-$HOME}/.config
-mkdir -p ${ZDOTDIR:-$HOME}/.config/nvim
+mkdir -p "${ZDOTDIR:-$HOME}/.config"
 
 # Per-file symlinks (live outside ~/.config or alongside other files)
 for dotFile in zshrc config/starship.toml tmux.conf.local Brewfile
 do
-    if [ -L ${ZDOTDIR:-$HOME}/.$dotFile ]; then
-        rm ${ZDOTDIR:-$HOME}/.$dotFile
+    target="${ZDOTDIR:-$HOME}/.$dotFile"
+    if [ -L "$target" ]; then
+        rm "$target"
     fi
-    ln -s $SCRIPT_DIR/configs/dotfiles/$dotFile ${ZDOTDIR:-$HOME}/.$dotFile
+    ln -s "$SCRIPT_DIR/configs/dotfiles/$dotFile" "$target"
 done
 
 # Whole-directory symlinks under ~/.config (captures any new files automatically)
 for configDir in fish ghostty mise
 do
-    target=${ZDOTDIR:-$HOME}/.config/$configDir
-    if [ -L $target ]; then
-        rm $target
-    elif [ -d $target ]; then
-        mv $target $target.bak.$(date +%Y%m%d%H%M%S)
+    target="${ZDOTDIR:-$HOME}/.config/$configDir"
+    if [ -L "$target" ]; then
+        rm "$target"
+    elif [ -d "$target" ]; then
+        mv "$target" "$target.bak.$(date +%Y%m%d%H%M%S)"
     fi
-    ln -s $SCRIPT_DIR/configs/dotfiles/config/$configDir $target
+    ln -s "$SCRIPT_DIR/configs/dotfiles/config/$configDir" "$target"
 done
 echo "... done"
 
@@ -54,13 +54,14 @@ mise install
 echo "... done"
 
 echo "Configuring tmux ..."
-if [ ! -d "${ZDOTDIR:-$HOME}/.tmux" ]; then
+if [ ! -d "${ZDOTDIR:-$HOME}/.tmux/.git" ]; then
+    rmdir "${ZDOTDIR:-$HOME}/.tmux" 2>/dev/null
     git clone --recursive https://github.com/gpakosz/.tmux.git "${ZDOTDIR:-$HOME}/.tmux"
 else
-    echo "  ~/.tmux already exists, skipping clone"
+    echo "  ~/.tmux already cloned, skipping"
 fi
-if [ -L ${ZDOTDIR:-$HOME}/.tmux.conf ]; then
-    rm ${ZDOTDIR:-$HOME}/.tmux.conf
+if [ -L "${ZDOTDIR:-$HOME}/.tmux.conf" ]; then
+    rm "${ZDOTDIR:-$HOME}/.tmux.conf"
 fi
 ln -s "${ZDOTDIR:-$HOME}/.tmux/.tmux.conf" "${ZDOTDIR:-$HOME}/.tmux.conf"
 echo "... done"
