@@ -316,19 +316,19 @@ tmux_conf_theme_status_right='%R , %d %b , #{username}#{root} , #{hostname} '
 bind g run-shell '\
     POPUP_NAME="popup-$(basename "#{pane_current_path}" | tr -cd "a-zA-Z0-9-")"; \
     if [ "#{session_name}" = "$POPUP_NAME" ]; then \
-        tmux detach-client; \
+        /opt/homebrew/bin/tmux detach-client; \
     else \
-        tmux display-popup -d "#{pane_current_path}" -xC -yC -w 80% -h 75% -E "tmux attach-session -t $POPUP_NAME || tmux new-session -s $POPUP_NAME"; \
+        /opt/homebrew/bin/tmux display-popup -d "#{pane_current_path}" -xC -yC -w 80% -h 75% -E "/opt/homebrew/bin/tmux attach-session -t $POPUP_NAME || /opt/homebrew/bin/tmux new-session -s $POPUP_NAME"; \
     fi \
 '
 
 bind G run-shell '\
     POPUP_NAME="popup-global"; \
     if [ "#{session_name}" = "$POPUP_NAME" ]; then \
-        tmux detach-client; \
+        /opt/homebrew/bin/tmux detach-client; \
     else \
-        tmux display-popup -xC -yC -w 80% -h 75% -E "tmux attach-session -t $POPUP_NAME || tmux new-session -s $POPUP_NAME"; \
+        /opt/homebrew/bin/tmux display-popup -xC -yC -w 80% -h 75% -E "/opt/homebrew/bin/tmux attach-session -t $POPUP_NAME || /opt/homebrew/bin/tmux new-session -s $POPUP_NAME"; \
     fi \
 '
 
-bind y run "tmux show-buffer | pbcopy"
+bind y run "/opt/homebrew/bin/tmux show-buffer | pbcopy"
