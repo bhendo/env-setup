@@ -1,2 +1,7 @@
 .DS_Store
 Brewfile.lock.json
+
+# Fish: machine-local state and auto-generated completions
+configs/dotfiles/config/fish/fish_variables
+configs/dotfiles/config/fish/completions/*
+!configs/dotfiles/config/fish/completions/.gitkeep

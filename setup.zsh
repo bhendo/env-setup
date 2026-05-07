@@ -12,15 +12,28 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 echo "... done"
 
 echo "Linking config files ..."
+mkdir -p ${ZDOTDIR:-$HOME}/.config
 mkdir -p ${ZDOTDIR:-$HOME}/.config/nvim
-mkdir -p ${ZDOTDIR:-$HOME}/.config/mise
-mkdir -p ${ZDOTDIR:-$HOME}/.config/ghostty
-for dotFile in zshrc config/starship.toml config/mise/config.toml config/fish/config.fish config/fish/functions/fish_user_key_bindings.fish config/ghostty/config config/ghostty/tmux tmux.conf.local Brewfile
+
+# Per-file symlinks (live outside ~/.config or alongside other files)
+for dotFile in zshrc config/starship.toml tmux.conf.local Brewfile
 do
     if [ -L ${ZDOTDIR:-$HOME}/.$dotFile ]; then
         rm ${ZDOTDIR:-$HOME}/.$dotFile
     fi
     ln -s $SCRIPT_DIR/configs/dotfiles/$dotFile ${ZDOTDIR:-$HOME}/.$dotFile
+done
+
+# Whole-directory symlinks under ~/.config (captures any new files automatically)
+for configDir in fish ghostty mise
+do
+    target=${ZDOTDIR:-$HOME}/.config/$configDir
+    if [ -L $target ]; then
+        rm $target
+    elif [ -d $target ]; then
+        mv $target $target.bak.$(date +%Y%m%d%H%M%S)
+    fi
+    ln -s $SCRIPT_DIR/configs/dotfiles/config/$configDir $target
 done
 echo "... done"
 
