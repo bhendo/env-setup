@@ -54,7 +54,11 @@ mise install
 echo "... done"
 
 echo "Configuring tmux ..."
-git clone --recursive https://github.com/gpakosz/.tmux.git "${ZDOTDIR:-$HOME}/.tmux"
+if [ ! -d "${ZDOTDIR:-$HOME}/.tmux" ]; then
+    git clone --recursive https://github.com/gpakosz/.tmux.git "${ZDOTDIR:-$HOME}/.tmux"
+else
+    echo "  ~/.tmux already exists, skipping clone"
+fi
 if [ -L ${ZDOTDIR:-$HOME}/.tmux.conf ]; then
     rm ${ZDOTDIR:-$HOME}/.tmux.conf
 fi
@@ -63,5 +67,11 @@ echo "... done"
 
 echo "Configuring vim ..."
 source  ${ZDOTDIR:-$HOME}/.zshrc
-git clone https://github.com/bhendo/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+if [ ! -d "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/.git" ]; then
+    # Empty dir is okay; git clone refuses if it contains files
+    rmdir "${XDG_CONFIG_HOME:-$HOME/.config}/nvim" 2>/dev/null
+    git clone https://github.com/bhendo/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+else
+    echo "  ~/.config/nvim already cloned, skipping"
+fi
 echo "... done"
