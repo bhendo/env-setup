@@ -7,7 +7,11 @@ export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS="--require-sha --appdir=~/Applications"
 
 echo "Installing homebrew ..."
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if ! command -v brew >/dev/null 2>&1 && [ ! -x /opt/homebrew/bin/brew ]; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+    echo "  homebrew already installed, skipping"
+fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
 echo "... done"
 
