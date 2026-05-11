@@ -1,0 +1,17 @@
+#!/bin/sh
+# Global pre-commit hook (installed via core.hooksPath).
+
+if command -v gitleaks >/dev/null 2>&1; then
+    gitleaks git --pre-commit --staged --redact --verbose . || exit 1
+else
+    echo "gitleaks not installed; skipping secret scan" >&2
+fi
+
+# Resolve the per-repo .git/hooks dir directly. Using `--git-path hooks/...`
+# would honor core.hooksPath and just hand us back our own path. --git-common-dir
+# is the shared .git for worktrees and submodules, so this works everywhere.
+git_dir="$(git rev-parse --git-common-dir 2>/dev/null)"
+repo_hook="$git_dir/hooks/pre-commit"
+if [ -n "$git_dir" ] && [ -x "$repo_hook" ] && [ "$repo_hook" != "$0" ]; then
+    exec "$repo_hook" "$@"
+fi

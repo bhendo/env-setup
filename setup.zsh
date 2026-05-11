@@ -39,6 +39,16 @@ do
     fi
     ln -s "$SCRIPT_DIR/configs/dotfiles/config/$configDir" "$target"
 done
+
+# Global git hooks
+githooks_target="${ZDOTDIR:-$HOME}/.githooks"
+if [ -L "$githooks_target" ]; then
+    rm "$githooks_target"
+elif [ -d "$githooks_target" ]; then
+    mv "$githooks_target" "$githooks_target.bak.$(date +%Y%m%d%H%M%S)"
+fi
+ln -s "$SCRIPT_DIR/configs/dotfiles/githooks" "$githooks_target"
+git config --global core.hooksPath "$githooks_target"
 echo "... done"
 
 echo "Installing tools ..."
