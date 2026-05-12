@@ -40,3 +40,6 @@ yq = "latest"
 [settings]
 idiomatic_version_file_enable_tools = []
 trusted_config_paths = ["/Users/bhenderson/code/github.com/bhendo/skriv"]
+
+[settings.ruby]
+compile = false
