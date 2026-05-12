@@ -40,6 +40,19 @@ do
     ln -s "$SCRIPT_DIR/configs/dotfiles/config/$configDir" "$target"
 done
 
+# Claude Code config (per-file symlinks; ~/.claude holds other user state)
+mkdir -p "${ZDOTDIR:-$HOME}/.claude"
+for claudeFile in statusline-command.sh settings.json
+do
+    target="${ZDOTDIR:-$HOME}/.claude/$claudeFile"
+    if [ -L "$target" ]; then
+        rm "$target"
+    elif [ -f "$target" ]; then
+        mv "$target" "$target.bak.$(date +%Y%m%d%H%M%S)"
+    fi
+    ln -s "$SCRIPT_DIR/configs/dotfiles/claude/$claudeFile" "$target"
+done
+
 # Global git hooks
 githooks_target="${ZDOTDIR:-$HOME}/.githooks"
 if [ -L "$githooks_target" ]; then
