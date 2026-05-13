@@ -42,7 +42,7 @@ done
 
 # Claude Code config (per-file symlinks; ~/.claude holds other user state)
 mkdir -p "${ZDOTDIR:-$HOME}/.claude"
-for claudeFile in statusline-command.sh settings.json notify-attention.sh
+for claudeFile in statusline-command.sh settings.json notify-attention.sh CLAUDE.md
 do
     target="${ZDOTDIR:-$HOME}/.claude/$claudeFile"
     if [ -L "$target" ]; then
