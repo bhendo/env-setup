@@ -15,6 +15,7 @@ input=$(cat)
   read -r five_hour_reset
   read -r seven_day_pct
   read -r seven_day_reset
+  read -r cost_usd
 } < <(jq -r '
   .workspace.current_dir // "",
   .context_window.used_percentage // "",
@@ -24,7 +25,8 @@ input=$(cat)
   .rate_limits.five_hour.used_percentage // "",
   .rate_limits.five_hour.resets_at // "",
   .rate_limits.seven_day.used_percentage // "",
-  .rate_limits.seven_day.resets_at // ""' <<<"$input")
+  .rate_limits.seven_day.resets_at // "",
+  .cost.total_cost_usd // ""' <<<"$input")
 
 if [ -z "$NO_COLOR" ]; then
   RESET=$'\033[0m'
@@ -161,7 +163,7 @@ if [ -n "$last_ts" ]; then
   fi
 fi
 
-# Claude.ai subscriber rate limits; absent for API-key users.
+# Claude.ai subscriber rate limits; fall back to session cost on API billing.
 if [ -n "$five_hour_pct" ] || [ -n "$seven_day_pct" ]; then
   rl=""
   [ -n "$five_hour_pct" ] && rl=$(rl_seg "5h" "$five_hour_pct" "$five_hour_reset" fmt_remaining)
@@ -170,6 +172,10 @@ if [ -n "$five_hour_pct" ] || [ -n "$seven_day_pct" ]; then
     rl="${rl:+$rl ${DOT} }$s"
   fi
   status+=" ${SEP} ${rl}"
+elif [ -n "$cost_usd" ]; then
+  cost_fmt=$(awk "BEGIN {printf \"%.2f\", $cost_usd}")
+  c=$(pct_color "$cost_usd" 5 20)
+  status+=" ${SEP} ${c}\$${cost_fmt}${RESET}"
 fi
 
 printf "%s" "$status"
