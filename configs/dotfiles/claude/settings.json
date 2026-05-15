@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/notify-attention.sh set",
+            "command": "~/.claude/notify-attention.sh fresh",
             "async": true
           }
         ]
@@ -30,7 +30,41 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/notify-attention.sh set",
+            "command": "~/.claude/notify-attention.sh notify"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/notify-attention.sh attention",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "AskUserQuestion|ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/notify-attention.sh attention",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "AskUserQuestion|ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/notify-attention.sh reset",
             "async": true
           }
         ]
@@ -41,7 +75,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/notify-attention.sh clear",
+            "command": "~/.claude/notify-attention.sh reset",
             "async": true
           }
         ]
