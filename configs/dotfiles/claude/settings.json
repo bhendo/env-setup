@@ -104,7 +104,7 @@
   "autoMemoryEnabled": true,
   "showThinkingSummaries": true,
   "theme": "dark-ansi",
-  "editorMode": "normal",
+  "editorMode": "vim",
   "teammateMode": "auto",
   "skipAutoPermissionPrompt": true
 }

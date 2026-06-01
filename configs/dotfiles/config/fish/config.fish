@@ -43,3 +43,7 @@ if status is-interactive
     zoxide init fish | source
     fzf --fish | source
 end
+
+if status is-interactive; and not set -q TMUX; and not set -q INSIDE_EMACS; and test -z "$SSH_TTY"
+    exec tmux new-session -A -s default
+end

@@ -1,2 +1,3 @@
 theme = iTerm2 Solarized Dark
-command = ~/.config/ghostty/tmux
+# tmux auto-launch lives in config.fish
+# command = ~/.config/ghostty/tmux
