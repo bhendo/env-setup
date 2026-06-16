@@ -16,6 +16,7 @@ input=$(cat)
   read -r seven_day_pct
   read -r seven_day_reset
   read -r cost_usd
+  read -r model
 } < <(jq -r '
   .workspace.current_dir // "",
   .context_window.used_percentage // "",
@@ -26,7 +27,8 @@ input=$(cat)
   .rate_limits.five_hour.resets_at // "",
   .rate_limits.seven_day.used_percentage // "",
   .rate_limits.seven_day.resets_at // "",
-  .cost.total_cost_usd // ""' <<<"$input")
+  .cost.total_cost_usd // "",
+  .model.display_name // ""' <<<"$input")
 
 if [ -z "$NO_COLOR" ]; then
   RESET=$'\033[0m'
@@ -37,8 +39,9 @@ if [ -z "$NO_COLOR" ]; then
   RED=$'\033[38;5;203m'
   PURPLE=$'\033[38;5;141m'
   GREY=$'\033[38;5;245m'
+  BLUE=$'\033[38;5;110m'
 else
-  RESET="" DIM="" CYAN="" GREEN="" YELLOW="" RED="" PURPLE="" GREY=""
+  RESET="" DIM="" CYAN="" GREEN="" YELLOW="" RED="" PURPLE="" GREY="" BLUE=""
 fi
 
 SEP="${DIM}│${RESET}"
@@ -118,6 +121,10 @@ status="${CYAN}${short_dir}${RESET}"
 
 if [ -n "$git_branch" ]; then
   status+=" ${DOT} ${GREEN}⎇ ${git_branch}${RESET}"
+fi
+
+if [ -n "$model" ]; then
+  status+=" ${SEP} ${BLUE}✦ ${model}${RESET}"
 fi
 
 if [ -n "$used_pct" ]; then
