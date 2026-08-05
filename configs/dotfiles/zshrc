@@ -32,6 +32,11 @@ eval "$(mise activate zsh)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 
+# Docker CLI completions
+if [ -d "$HOME/.docker/completions" ]; then
+  fpath=($HOME/.docker/completions $fpath)
+fi
+
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
@@ -45,9 +50,3 @@ source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
-
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/bhenderson/.docker/completions $fpath)
-autoload -Uz compinit
-compinit
-# End of Docker CLI completions

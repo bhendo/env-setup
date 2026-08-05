@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+set -e -u -o pipefail
+
 SCRIPT_DIR="$( cd -- "$( dirname -- "$0" )" &> /dev/null && pwd )"
 
 export HOMEBREW_NO_ANALYTICS=1
@@ -24,6 +26,8 @@ do
     target="${ZDOTDIR:-$HOME}/.$dotFile"
     if [ -L "$target" ]; then
         rm "$target"
+    elif [ -e "$target" ]; then
+        mv "$target" "$target.bak.$(date +%Y%m%d%H%M%S)"
     fi
     ln -s "$SCRIPT_DIR/configs/dotfiles/$dotFile" "$target"
 done
@@ -70,36 +74,57 @@ $(brew --prefix)/opt/fzf/install --all
 chmod -R go-w $(brew --prefix)/share
 echo "... done"
 
-echo "Installing rust ..."
-rustup toolchain install stable nightly
-rustup default nightly
-rustup component add rust-analyzer
+echo "Setting fish as the default shell ..."
+fish_path="$(brew --prefix)/bin/fish"
+if ! grep -qx "$fish_path" /etc/shells; then
+    echo "$fish_path" | sudo tee -a /etc/shells >/dev/null
+fi
+if [ "$(dscl . -read "$HOME" UserShell | awk '{print $2}')" != "$fish_path" ]; then
+    chsh -s "$fish_path"
+else
+    echo "  fish already the default shell, skipping"
+fi
 echo "... done"
 
 echo "Installing dev tools ..."
+# rust (nightly + rust-analyzer) comes from mise; see config/mise/config.toml
 mise install
 echo "... done"
 
 echo "Configuring tmux ..."
 if [ ! -d "${ZDOTDIR:-$HOME}/.tmux/.git" ]; then
-    rmdir "${ZDOTDIR:-$HOME}/.tmux" 2>/dev/null
+    rmdir "${ZDOTDIR:-$HOME}/.tmux" 2>/dev/null || true
     git clone --recursive https://github.com/gpakosz/.tmux.git "${ZDOTDIR:-$HOME}/.tmux"
 else
     echo "  ~/.tmux already cloned, skipping"
 fi
-if [ -L "${ZDOTDIR:-$HOME}/.tmux.conf" ]; then
-    rm "${ZDOTDIR:-$HOME}/.tmux.conf"
+tmuxconf_target="${ZDOTDIR:-$HOME}/.tmux.conf"
+if [ -L "$tmuxconf_target" ]; then
+    rm "$tmuxconf_target"
+elif [ -e "$tmuxconf_target" ]; then
+    mv "$tmuxconf_target" "$tmuxconf_target.bak.$(date +%Y%m%d%H%M%S)"
 fi
-ln -s "${ZDOTDIR:-$HOME}/.tmux/.tmux.conf" "${ZDOTDIR:-$HOME}/.tmux.conf"
+ln -s "${ZDOTDIR:-$HOME}/.tmux/.tmux.conf" "$tmuxconf_target"
 echo "... done"
 
 echo "Configuring vim ..."
-source  ${ZDOTDIR:-$HOME}/.zshrc
 if [ ! -d "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/.git" ]; then
     # Empty dir is okay; git clone refuses if it contains files
-    rmdir "${XDG_CONFIG_HOME:-$HOME/.config}/nvim" 2>/dev/null
+    rmdir "${XDG_CONFIG_HOME:-$HOME/.config}/nvim" 2>/dev/null || true
     git clone https://github.com/bhendo/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
 else
     echo "  ~/.config/nvim already cloned, skipping"
 fi
+echo "... done"
+
+echo "Installing iTerm2 profile ..."
+dynprofiles="$HOME/Library/Application Support/iTerm2/DynamicProfiles"
+mkdir -p "$dynprofiles"
+profile_target="$dynprofiles/env-setup.json"
+if [ -L "$profile_target" ]; then
+    rm "$profile_target"
+elif [ -e "$profile_target" ]; then
+    mv "$profile_target" "$profile_target.bak.$(date +%Y%m%d%H%M%S)"
+fi
+ln -s "$SCRIPT_DIR/configs/iterm2-profile.json" "$profile_target"
 echo "... done"
