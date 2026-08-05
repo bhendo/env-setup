@@ -21,11 +21,12 @@ set -gx EDITOR $VISUAL
 # X11
 set -gx DISPLAY :0
 
-# Path
-fish_add_path $HOME/.local/bin
-fish_add_path $GOPATH/bin
-fish_add_path $HOME/.cargo/bin
-fish_add_path /opt/homebrew/bin
+# Path (-g: session-scoped, so machine-specific absolute paths never
+# get persisted into fish_variables)
+fish_add_path -g $HOME/.local/bin
+fish_add_path -g $GOPATH/bin
+fish_add_path -g $HOME/.cargo/bin
+fish_add_path -g /opt/homebrew/bin
 
 # Aliases
 alias whatsmyip 'dig +short myip.opendns.com @resolver1.opendns.com'
