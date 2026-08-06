@@ -1,6 +1,4 @@
-tap "cloudsecuritypartners/tools", "git@github.com:CloudSecurityPartners/homebrew-tools.git", trusted: true
 brew "ast-grep"
-brew "cloudsecuritypartners/tools/nebula"
 brew "cmake"
 brew "fd"
 brew "fish"
