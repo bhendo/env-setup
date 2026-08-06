@@ -127,15 +127,3 @@ else
     echo "  ~/.config/nvim already cloned, skipping"
 fi
 echo "... done"
-
-echo "Installing iTerm2 profile ..."
-dynprofiles="$HOME/Library/Application Support/iTerm2/DynamicProfiles"
-mkdir -p "$dynprofiles"
-profile_target="$dynprofiles/env-setup.json"
-if [ -L "$profile_target" ]; then
-    rm "$profile_target"
-elif [ -e "$profile_target" ]; then
-    mv "$profile_target" "$profile_target.bak.$(date +%Y%m%d%H%M%S)"
-fi
-ln -s "$SCRIPT_DIR/configs/iterm2-profile.json" "$profile_target"
-echo "... done"
