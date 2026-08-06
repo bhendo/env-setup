@@ -333,3 +333,10 @@ bind y run "/opt/homebrew/bin/tmux show-buffer | pbcopy"
 
 # Clear Claude Code @waiting indicator when the user switches to a flagged window.
 set-hook -g after-select-window 'set-window-option -u @waiting'
+
+# Claude Code TUI support (https://code.claude.com/docs/en/terminal-config).
+# allow-passthrough lets notifications/progress reach the outer terminal;
+# extended-keys + terminal-features let Shift+Enter insert a newline in tmux.
+set -g allow-passthrough on
+set -s extended-keys on
+set -as terminal-features 'xterm*:extkeys'
