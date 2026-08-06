@@ -15,8 +15,9 @@ needed beforehand. It will:
 - symlink dotfiles for zsh, fish, starship, ghostty, mise, tmux, and Claude Code
 - register fish in `/etc/shells` and make it your default shell
   (prompts for your password via `sudo`/`chsh`)
-- install language toolchains via `mise` (rust nightly + rust-analyzer
-  included — see `configs/dotfiles/config/mise/config.toml`)
+- install rustup (via the official installer), then language toolchains
+  via `mise` (rust nightly + rust-analyzer included — see
+  `configs/dotfiles/config/mise/config.toml`)
 - clone tmux and neovim configs
 - symlink the iTerm2 profile into `~/Library/Application
   Support/iTerm2/DynamicProfiles` so it appears in iTerm2 automatically

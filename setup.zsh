@@ -86,8 +86,19 @@ else
 fi
 echo "... done"
 
+echo "Installing rustup ..."
+if command -v rustup >/dev/null 2>&1 || [ -x "$HOME/.cargo/bin/rustup" ]; then
+    echo "  rustup already installed, skipping"
+else
+    curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs \
+        | sh -s -- -y --no-modify-path --default-toolchain none
+fi
+export PATH="$HOME/.cargo/bin:$PATH"
+echo "... done"
+
 echo "Installing dev tools ..."
-# rust (nightly + rust-analyzer) comes from mise; see config/mise/config.toml
+# rust toolchains (nightly + rust-analyzer) come from mise via rustup;
+# see config/mise/config.toml
 mise install
 echo "... done"
 
