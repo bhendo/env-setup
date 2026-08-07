@@ -25,6 +25,13 @@ files found in the way are backed up with a `.bak.<timestamp>` suffix.
 The script stops on the first error (`set -e`), so a clean "... done" at
 the end means everything converged.
 
+## Tool audit
+
+`tool-audit` (a fish function wrapping `scripts/tool-audit.py`) reports when
+each brew package and global mise tool was last used, based on shell history,
+binary access times, and Spotlight app metadata. Optional arguments `brew` or
+`mise` limit the report to one section.
+
 ## Git hooks
 
 `setup.zsh` installs a global pre-commit hook via `core.hooksPath` that scans
