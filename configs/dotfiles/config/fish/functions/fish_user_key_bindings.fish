@@ -1,4 +1,7 @@
 function fish_user_key_bindings
+  if command -q fzf
+    fzf --fish | source
+  end
   # Enable Vi mode first
   fish_vi_key_bindings
 
