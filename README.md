@@ -25,9 +25,16 @@ files found in the way are backed up with a `.bak.<timestamp>` suffix.
 The script stops on the first error (`set -e`), so a clean "... done" at
 the end means everything converged.
 
+## Fish functions
+
+Custom functions in `configs/dotfiles/config/fish/functions/` are prefixed
+`bh-`, so typing `bh` and pressing Tab lists all of them. Two kinds keep
+their required names instead: wrappers that shadow a command (`claude`) and
+fish hooks (`fish_user_key_bindings`).
+
 ## Tool audit
 
-`tool-audit` (a fish function wrapping `scripts/tool-audit.py`) reports when
+`bh-tool-audit` (a fish function wrapping `scripts/tool-audit.py`) reports when
 each brew package and global mise tool was last used, based on shell history,
 binary access times, and Spotlight app metadata. Optional arguments `brew` or
 `mise` limit the report to one section.

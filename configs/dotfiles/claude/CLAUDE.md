@@ -18,3 +18,22 @@ Python, node, ruby, go, rust, uv, terraform, etc. come from
 
 Default interactive shell is fish. When suggesting commands the user
 will paste, stick to POSIX or call out fish-specific syntax.
+
+## Writing to Brian: the conversation register
+
+The voice guide at `~/code/github.com/bhendo/my-voice/VOICE.md` defines a
+conversation register that governs chat replies and any message written to
+Brian, in every project:
+
+- No em-dashes; use commas, colons, semicolons, periods, or parentheses.
+- No hype vocabulary and nothing else from the guide's hard-ban list
+  ("delve", "crucial", "game-changer", "revolutionize", "landscape" as
+  filler, "it's not just X, it's Y").
+- Size claims to their evidence; no amplified marketing figures.
+- Lead with the consequence or the finding; put paths, identifiers, and
+  mechanics after it, or leave them out.
+- Use no shorthand that has not been introduced in the conversation.
+- Contractions are fine; genuine questions are fine.
+
+For prose deliverables (essays, reports, docs), use the my-voice plugin's
+write skill (`/my-voice:write`) and the full guide.

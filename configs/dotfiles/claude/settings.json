@@ -94,7 +94,16 @@
     "rust-analyzer-lsp@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
-    "gopls-lsp@claude-plugins-official": true
+    "gopls-lsp@claude-plugins-official": true,
+    "my-voice@my-voice": true
+  },
+  "extraKnownMarketplaces": {
+    "my-voice": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/bhenderson/code/github.com/bhendo/writing"
+      }
+    }
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "xhigh",
