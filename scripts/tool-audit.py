@@ -29,8 +29,11 @@ SKIP_TOKENS = {"sudo", "command", "exec", "time", "nohup", "env", "builtin",
                "-", "then", "if", "while", "for", "do", "done", "end"}
 
 
-def sh(args):
-    return subprocess.run(args, capture_output=True, text=True).stdout
+def sh(args, merge_err=False):
+    r = subprocess.run(
+        args, stdout=subprocess.PIPE, text=True,
+        stderr=subprocess.STDOUT if merge_err else subprocess.PIPE)
+    return r.stdout
 
 
 def day(ts):
@@ -283,8 +286,16 @@ def audit_mise(last_use):
     for r in sorted(rows, key=sort_key):
         row(*r)
     if orphans:
-        print(f"\n== mise installs not in any config (mise prune candidates) ==\n"
-              f"  {', '.join(sorted(orphans))}")
+        # `mise ls` only resolves sources for the global config and the cwd,
+        # so these are usually versions pinned by project configs elsewhere.
+        # `mise prune` is the authority on what is actually unreferenced.
+        print(f"\n== mise installs not requested by the global config "
+              f"(usually project-pinned) ==\n  {', '.join(sorted(orphans))}")
+        dry = [l for l in sh(["mise", "prune", "--dry-run"],
+                             merge_err=True).splitlines() if l.strip()]
+        print("  what `mise prune` would remove:")
+        for line in dry or ["  (nothing)"]:
+            print(f"    {line}")
 
 
 def main():
