@@ -10,7 +10,7 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_SRC="$DIR/configs/dotfiles/claude"
 
 mkdir -p "$HOME/.claude"
-for f in CLAUDE.md settings.json statusline-command.sh notify-attention.sh; do
+for f in CLAUDE.md settings.json settings-bedrock.json statusline-command.sh notify-attention.sh; do
   ln -sf "$CLAUDE_SRC/$f" "$HOME/.claude/$f"
 done
 echo "dotfiles: linked claude configs into ~/.claude"
