@@ -11,9 +11,9 @@
     "pr": ""
   },
   "permissions": {
-    "defaultMode": "default"
+    "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
+  "model": "fable[1m]",
   "hooks": {
     "Stop": [
       {
@@ -95,13 +95,14 @@
     "typescript-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
-    "my-voice@my-voice": true
+    "my-voice@my-voice": true,
+    "agentic-security-review@agentic-security-review": true
   },
   "extraKnownMarketplaces": {
     "my-voice": {
       "source": {
-        "source": "directory",
-        "path": "/Users/bhenderson/code/github.com/bhendo/writing"
+        "source": "github",
+        "repo": "bhendo/my-voice"
       }
     }
   },
@@ -113,7 +114,8 @@
   "skipWorkflowUsageWarning": true,
   "theme": "dark-ansi",
   "editorMode": "vim",
+  "autoCompactEnabled": true,
   "autoScrollEnabled": true,
-  "teammateMode": "auto",
+  "teammateMode": "tmux",
   "skipAutoPermissionPrompt": true
 }
