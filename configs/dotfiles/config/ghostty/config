@@ -1,3 +1,5 @@
-theme = iTerm2 Solarized Dark
+theme = light:iTerm2 Solarized Light,dark:iTerm2 Solarized Dark
+# cmd+opt+t sends F7; fish and nvim bind F7 to bh-theme (dark/light toggle)
+keybind = cmd+opt+t=text:\x1b[18~
 # tmux auto-launch lives in config.fish
 # command = ~/.config/ghostty/tmux

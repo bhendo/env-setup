@@ -13,4 +13,8 @@ function fish_user_key_bindings
 
   # Optional: Bind 'p' to paste from system clipboard
   bind -M default p fish_clipboard_paste
+
+  # F7 (ghostty sends it on cmd+opt+t) toggles dark/light everywhere
+  bind -M insert f7 'bh-theme; commandline -f repaint'
+  bind -M default f7 'bh-theme; commandline -f repaint'
 end
