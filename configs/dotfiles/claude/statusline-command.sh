@@ -17,6 +17,10 @@ input=$(cat)
   read -r seven_day_reset
   read -r cost_usd
   read -r model
+  read -r effort
+  read -r pc_warm
+  read -r pc_expires
+  read -r pc_ttl
 } < <(jq -r '
   .workspace.current_dir // "",
   .context_window.used_percentage // "",
@@ -28,7 +32,11 @@ input=$(cat)
   .rate_limits.seven_day.used_percentage // "",
   .rate_limits.seven_day.resets_at // "",
   .cost.total_cost_usd // "",
-  .model.display_name // ""' <<<"$input")
+  .model.display_name // "",
+  .effort.level // "",
+  (.prompt_cache.warm | if . == null then "" else tostring end),
+  .prompt_cache.expires_at // "",
+  .prompt_cache.ttl // ""' <<<"$input")
 
 if [ -z "$NO_COLOR" ]; then
   RESET=$'\033[0m'
@@ -104,16 +112,15 @@ esac
 
 # Turn = one user-authored prompt. The transcript's user entries also include
 # tool_result echoes (content is an array) and isMeta caveats; both filtered.
-# Same pass captures the last assistant timestamp for the prompt-cache window.
-turn_count=""; last_ts=""
+# grep narrows the file to candidate lines (a superset) before jq parses them,
+# since this runs every refreshInterval and transcripts reach tens of MB.
+turn_count=""
 if [ -n "$transcript" ] && [ -f "$transcript" ]; then
-  IFS=$'\t' read -r turn_count last_ts < <(jq -rs '
-    ([.[] | select(.type=="user"
-                   and (.isSidechain//false|not)
-                   and (.isMeta//false|not)
-                   and (.message.content|type)=="string")] | length) as $u
-    | ([.[] | select(.type=="assistant" and (.isSidechain//false|not)) | .timestamp] | last) as $t
-    | "\($u)\t\($t // "")"' "$transcript" 2>/dev/null)
+  turn_count=$(grep '"type":"user"' "$transcript" | grep '"content":"' | jq -n '
+    [inputs | select(.type=="user"
+                     and (.isSidechain//false|not)
+                     and (.isMeta//false|not)
+                     and (.message.content|type)=="string")] | length' 2>/dev/null)
   [ "$turn_count" = "0" ] && turn_count=""
 fi
 
@@ -125,6 +132,7 @@ fi
 
 if [ -n "$model" ]; then
   status+=" ${SEP} ${BLUE}✦ ${model}${RESET}"
+  [ -n "$effort" ] && status+=" ${GREY}${effort}${RESET}"
 fi
 
 if [ -n "$used_pct" ]; then
@@ -148,26 +156,42 @@ if [ -n "$turn_count" ]; then
   status+=" ${SEP} ${PURPLE}↻ ${turn_count}${RESET}"
 fi
 
-# Anthropic prompt cache has a 5-minute TTL refreshed by every cache-eligible
-# request. Show absolute remaining — the statusline doesn't tick on its own.
-if [ -n "$last_ts" ]; then
-  last_epoch=$(iso_to_epoch "$last_ts")
-  if [ -n "$last_epoch" ]; then
-    remaining=$((last_epoch + 300 - now))
-    [ "$remaining" -gt 300 ] && remaining=300
-    if [ "$remaining" -gt 0 ]; then
-      m=$((remaining / 60)); s=$((remaining % 60))
-      if [ "$remaining" -le 150 ]; then glyph="${YELLOW}●${RESET}"
-      else                              glyph="${GREEN}●${RESET}"
-      fi
-      if [ "$m" -gt 0 ]; then cache_seg="${glyph} ${DIM}${m}m${s}s${RESET}"
-      else                    cache_seg="${glyph} ${DIM}${s}s${RESET}"
-      fi
-    else
-      cache_seg="${DIM}○${RESET}"
-    fi
-    status+=" ${SEP} ${cache_seg}"
+# Prompt cache. Prefer the harness's own accounting (prompt_cache.expires_at is
+# epoch seconds, ttl is "5m" or "1h"); older versions don't report it, so fall
+# back to a 5-minute window from the last assistant timestamp. The countdown
+# only advances when the script re-runs, so settings.json sets a
+# statusLine.refreshInterval; minute granularity matches that cadence.
+cache_expires=""; cache_ttl=300
+if [ -n "$pc_warm" ]; then
+  if [ "$pc_warm" = "true" ] && [ -n "$pc_expires" ]; then
+    cache_expires=$pc_expires
+    case "$pc_ttl" in
+      *h) cache_ttl=$(( ${pc_ttl%h} * 3600 )) ;;
+      *m) cache_ttl=$(( ${pc_ttl%m} * 60 )) ;;
+    esac
+  else
+    cache_expires=0
   fi
+elif [ -n "$transcript" ] && [ -f "$transcript" ]; then
+  last_ts=$(grep '"type":"assistant"' "$transcript" | tail -1 | jq -r '.timestamp // ""' 2>/dev/null)
+  last_epoch=$(iso_to_epoch "$last_ts")
+  [ -n "$last_epoch" ] && cache_expires=$((last_epoch + 300))
+fi
+
+if [ -n "$cache_expires" ]; then
+  remaining=$((cache_expires - now))
+  [ "$remaining" -gt "$cache_ttl" ] && remaining=$cache_ttl
+  if [ "$remaining" -gt 0 ]; then
+    if [ "$remaining" -le $((cache_ttl / 2)) ]; then glyph="${YELLOW}●${RESET}"
+    else                                            glyph="${GREEN}●${RESET}"
+    fi
+    if [ "$remaining" -ge 60 ]; then cache_seg="${glyph} ${DIM}$((remaining / 60))m${RESET}"
+    else                             cache_seg="${glyph} ${DIM}${remaining}s${RESET}"
+    fi
+  else
+    cache_seg="${DIM}○${RESET}"
+  fi
+  status+=" ${SEP} ${cache_seg}"
 fi
 
 # Claude.ai subscriber rate limits; fall back to session cost on API billing.
