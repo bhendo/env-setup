@@ -96,16 +96,7 @@
     "typescript-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
-    "my-voice@my-voice": true,
     "agentic-security-review@agentic-security-review": true
-  },
-  "extraKnownMarketplaces": {
-    "my-voice": {
-      "source": {
-        "source": "github",
-        "repo": "bhendo/my-voice"
-      }
-    }
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "xhigh",
