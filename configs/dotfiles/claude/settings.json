@@ -107,7 +107,9 @@
   "theme": "dark-ansi",
   "editorMode": "vim",
   "autoCompactEnabled": true,
+  "switchModelsOnFlag": true,
   "autoScrollEnabled": true,
   "teammateMode": "tmux",
+  "remoteControlAtStartup": false,
   "skipAutoPermissionPrompt": true
 }
