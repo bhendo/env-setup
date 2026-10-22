@@ -328,6 +328,10 @@ bind G run-shell '\
     fi \
 '
 
+# Draw popups with the terminal's own colours so they follow the ghostty theme.
+set -g popup-style default
+set -g popup-border-style default
+
 bind y run "/opt/homebrew/bin/tmux show-buffer | pbcopy"
 
 # Clear Claude Code @waiting indicator when the user switches to a flagged window.
