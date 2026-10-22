@@ -334,6 +334,10 @@ set -g popup-border-style default
 
 bind y run "/opt/homebrew/bin/tmux show-buffer | pbcopy"
 
+# Forward OSC 52 clipboard writes from panes to the terminal. Popups run a
+# nested tmux client, so copies made inside them arrive this way.
+set -s set-clipboard on
+
 # Clear Claude Code @waiting indicator when the user switches to a flagged window.
 set-hook -g after-select-window 'set-window-option -u @waiting'
 
