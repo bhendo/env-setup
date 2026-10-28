@@ -347,3 +347,8 @@ set-hook -g after-select-window 'set-window-option -u @waiting'
 set -g allow-passthrough on
 set -s extended-keys on
 set -as terminal-features 'xterm*:extkeys'
+
+# Popups run a nested tmux client, which asks for modifyOtherKeys mode 2. In
+# that mode pasted newlines reach the shell as an escaped Ctrl+J and are lost.
+# Mode 1 still encodes Shift+Enter but sends plain Ctrl keys unchanged.
+set -as terminal-overrides 'tmux*:Eneks=\E[>4;1m'
