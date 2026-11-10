@@ -44,17 +44,21 @@ do
     ln -s "$SCRIPT_DIR/configs/dotfiles/config/$configDir" "$target"
 done
 
-# Claude Code config (per-file symlinks; ~/.claude holds other user state)
-mkdir -p "${ZDOTDIR:-$HOME}/.claude"
-for claudeFile in statusline-command.sh settings.json settings-bedrock.json notify-attention.sh CLAUDE.md
+# Claude Code config (per-file symlinks; each config dir holds other user state).
+# ~/.claude is the personal account, ~/.claude-work the work account (claude-work).
+for claudeDir in .claude .claude-work
 do
-    target="${ZDOTDIR:-$HOME}/.claude/$claudeFile"
-    if [ -L "$target" ]; then
-        rm "$target"
-    elif [ -f "$target" ]; then
-        mv "$target" "$target.bak.$(date +%Y%m%d%H%M%S)"
-    fi
-    ln -s "$SCRIPT_DIR/configs/dotfiles/claude/$claudeFile" "$target"
+    mkdir -p "${ZDOTDIR:-$HOME}/$claudeDir"
+    for claudeFile in statusline-command.sh settings.json settings-bedrock.json notify-attention.sh CLAUDE.md
+    do
+        target="${ZDOTDIR:-$HOME}/$claudeDir/$claudeFile"
+        if [ -L "$target" ]; then
+            rm "$target"
+        elif [ -f "$target" ]; then
+            mv "$target" "$target.bak.$(date +%Y%m%d%H%M%S)"
+        fi
+        ln -s "$SCRIPT_DIR/configs/dotfiles/claude/$claudeFile" "$target"
+    done
 done
 
 # Global git hooks

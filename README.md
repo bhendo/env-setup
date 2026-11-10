@@ -32,6 +32,12 @@ Custom functions in `configs/dotfiles/config/fish/functions/` are prefixed
 their required names instead: wrappers that shadow a command (`claude`) and
 fish hooks (`fish_user_key_bindings`).
 
+## Claude Code work account
+
+`claude-work` runs Claude Code with `CLAUDE_CONFIG_DIR=~/.claude-work`, so the
+work login, sessions, and memory stay separate from the personal `~/.claude`.
+`setup.zsh` links the same settings files into both directories.
+
 ## Tool audit
 
 `bh-tool-audit` (a fish function wrapping `scripts/tool-audit.py`) reports when
