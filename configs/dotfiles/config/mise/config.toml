@@ -1,6 +1,5 @@
 [tools]
 awscli = "latest"
-azure-cli = "latest"
 claude-code = { version = "latest", bin = "claude", platforms = """
 [linux-arm64]
 url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/{version}/linux-arm64/claude"
@@ -31,6 +30,7 @@ node = "latest"
 "npm:pyright" = "latest"
 "npm:typescript" = "latest"
 "npm:typescript-language-server" = "latest"
+opencode = { version = "latest", allow_builds = ["@opencode/cli"] }
 prettier = "latest"
 python = "latest"
 ruby = "latest"
