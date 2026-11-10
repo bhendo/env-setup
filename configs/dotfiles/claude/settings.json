@@ -13,7 +13,7 @@
   "permissions": {
     "defaultMode": "auto"
   },
-  "model": "fable[1m]",
+  "model": "opus",
   "hooks": {
     "Stop": [
       {
@@ -98,8 +98,20 @@
     "gopls-lsp@claude-plugins-official": true,
     "agentic-security-review@agentic-security-review": true
   },
+  "feedbackDrafts": "off",
   "alwaysThinkingEnabled": true,
   "effortLevel": "xhigh",
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "xhigh"
+    },
+    "claude-opus-4-8": {
+      "effortLevel": "xhigh"
+    },
+    "claude-fable-5-2": {
+      "effortLevel": "xhigh"
+    }
+  },
   "tui": "fullscreen",
   "autoMemoryEnabled": true,
   "showThinkingSummaries": true,
